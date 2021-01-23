@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,9 @@ public class NineGrid {
 	
 	private JPanel gamePanel = new JPanel();
 	public NineGridPanel nineGridPanel = new NineGridPanel();
+	public PlayerPanel playerPanel = new PlayerPanel();
+	
+	public JPanel[][] gridPanels = new JPanel[3][3];
 	
 	private void setWindow() {
 		window.setUndecorated(true);
@@ -26,17 +30,21 @@ public class NineGrid {
 		contentPane.add(gamePanel);
 		
 		// set gamePanel
-		gamePanel.setBounds(contentPane.getWidth()/3,contentPane.getHeight()/4,contentPane.getWidth()*2/3,contentPane.getHeight()/4+contentPane.getWidth()/3);
-		gamePanel.setSize(contentPane.getWidth()/3,contentPane.getWidth()/3);
+		gamePanel.setBackground(Color.blue);
+		gamePanel.setBounds(0,contentPane.getHeight()/4-100,contentPane.getWidth()*2/3+100,contentPane.getHeight());
 		gamePanel.setLayout(null);
 		gamePanel.add(nineGridPanel);
+//		gamePanel.add(playerPanel);
 		
 		nineGridPanel.setBackground(Color.white);
-		nineGridPanel.setBounds(0,0,gamePanel.getWidth(),gamePanel.getHeight());
-		nineGridPanel.setSize(gamePanel.getWidth(),gamePanel.getWidth());
-		System.out.println(gamePanel.getWidth());
+		nineGridPanel.setBounds(gamePanel.getWidth()*2/3,0,gamePanel.getWidth(),gamePanel.getWidth()/3);
+		nineGridPanel.setSize(gamePanel.getWidth()/3,gamePanel.getWidth()/3);
 		
-		// set Button
+		playerPanel.setBackground(Color.red);
+		playerPanel.setBounds(0,0,gamePanel.getWidth()*2/3,gamePanel.getHeight());
+		playerPanel.setSize(gamePanel.getWidth()*2/3,gamePanel.getHeight());
+		
+		// set btnPanel
 		btnPanel.setBounds(contentPane.getWidth()*3/4,contentPane.getHeight()*3/4,contentPane.getWidth(),contentPane.getHeight());
 		btnPanel.setSize(contentPane.getWidth()/4,contentPane.getHeight()/4);
 		btnPanel.setBackground(Color.black);
@@ -57,25 +65,47 @@ public class NineGrid {
 		setWindow();
 		window.setVisible(true);
 	}
-
-}
-
-class NineGridPanel extends JPanel{
 	
-	@Override
-	public void paint(Graphics g)
-	{
-		//1.呼叫父類函式完成初始化
-		super.paint(g);	
+	class NineGridPanel extends JPanel{
 		
-		g.drawRect(0,0,this.getWidth(),this.getHeight());
-		g.drawLine(0,this.getHeight()/3,this.getWidth(),this.getHeight()/3);
-		g.drawLine(0,this.getHeight()*2/3,this.getWidth(),this.getHeight()*2/3);
-		g.drawLine(this.getWidth()/3,0,this.getWidth()/3,this.getHeight());
-		g.drawLine(this.getWidth()*2/3,0,this.getWidth()*2/3,this.getHeight());
-		//畫填充矩形
-//		g.setColor(Color.BLUE);		//設定顏色
-//		g.fillRect(80,60,40,60);
+		@Override
+		public void paint(Graphics g)
+		{
+			Graphics2D g2 = (Graphics2D) g;
+	        g2.setStroke(new BasicStroke(10));
+	        
+			//1.呼叫父類函式完成初始化
+			super.paint(g2);	
+			
+			g2.drawRect(0,0,this.getWidth(),this.getHeight());
+			g2.drawLine(0,this.getHeight()/3,this.getWidth(),this.getHeight()/3);
+			g2.drawLine(0,this.getHeight()*2/3,this.getWidth(),this.getHeight()*2/3);
+			g2.drawLine(this.getWidth()/3,0,this.getWidth()/3,this.getHeight());
+			g2.drawLine(this.getWidth()*2/3,0,this.getWidth()*2/3,this.getHeight());
+			
+			for(int i = 0; i < gridPanels.length; i++) {
+				for(int j = 0; j < gridPanels[i].length; j++) {
+					JPanel gridPanel = new JPanel();
+					JLabel panelLb = new JLabel();
+					
+					gridPanel.setBounds(this.getWidth()/3*j,this.getHeight()/3*i,this.getWidth()/3*(j+1),this.getHeight()/3*(i+1));
+					gridPanel.setSize(this.getWidth()/3,this.getHeight()/3);
+					gridPanel.setBackground(Color.white);
+					gridPanel.setLayout(null);
+					gridPanel.add(panelLb);
+					
+					panelLb.setText(String.valueOf(i*3+j+1));
+					panelLb.setBounds(gridPanel.getWidth()/3+3,gridPanel.getHeight()/3-15,gridPanel.getWidth()*2/3,gridPanel.getHeight()*2/3);
+					panelLb.setFont (panelLb.getFont ().deriveFont (64.0f));
+					
+					this.add(gridPanel);
+					gridPanels[i][j] = gridPanel;
+				}
+			}
+		}
+	}
+	
+	class PlayerPanel extends JPanel{
 		
 	}
 }
