@@ -11,6 +11,12 @@ import javax.swing.JPanel;
 public class NineGridPanel extends JPanel{
 	public static final long serialVersionUID = 1L;
 	
+	private JPanel[][] gridPanels = new JPanel[3][3];
+	
+	public NineGridPanel(JPanel[][] gridPanels) {
+		this.gridPanels = gridPanels;
+	}
+	
 	@Override
 	public void paint(Graphics g)
 	{

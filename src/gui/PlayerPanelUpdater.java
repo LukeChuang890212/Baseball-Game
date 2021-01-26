@@ -1,13 +1,14 @@
 package gui;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import dataReceiver.DataReceiver;
+
 public class PlayerPanelUpdater {
-	public void update(JPanel gamePanel, JPanel origPanel) {
+	public void update(JPanel gamePanel, JPanel origPanel, DataReceiver dataReceiver) {
 		while(true) {
 			gamePanel.remove(origPanel);
-			gamePanel.add(createNewPanel());
+			gamePanel.add(new PlayerPanel(dataReceiver));
 			gamePanel.revalidate();
 		}
 	}

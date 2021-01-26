@@ -1,41 +1,49 @@
 package gui;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import org.json.JSONArray;
 
 import dataReceiver.DataReceiver;
 import opencv.MoveDetector;
 
 public class NineGrid {
-	private JFrame window = new JFrame("NineGrid");
+	private JFrame window;
 	private Container contentPane;
 	
-	private JPanel btnPanel = new JPanel();
-	private Button exitBtn = new Button("Exit");
-	
-	private JPanel gamePanel = new JPanel();
-	public NineGridPanel nineGridPanel = new NineGridPanel();
-	public PlayerPanel playerPanel = new PlayerPanel();
-	public JPanel[][] gridPanels = new JPanel[3][3];
+	private JPanel btnPanel;
+	private Button exitBtn;
 	
 	private DataReceiver dataReceiver;
-	private PlayerPanelUpdater playerPanelUpdater = new PlayerPanelUpdater();
+	
+	public JPanel[][] gridPanels;
+	public NineGridPanel nineGridPanel;
+	public PlayerPanel playerPanel;
+	private JPanel gamePanel;
+	
+	private PlayerPanelUpdater playerPanelUpdater;
 			
 	public NineGrid(DataReceiver dataReceiver) {
+		this.window = new JFrame("NineGrid");
+//		this.contentPane;
+		
+		this.btnPanel = new JPanel();
+		this.exitBtn = new Button("Exit");
+		
 		this.dataReceiver = dataReceiver;
+		
+		this.gridPanels = new JPanel[3][3];
+		this.nineGridPanel = new NineGridPanel(this.gridPanels);
+		this.playerPanel = new PlayerPanel(this.dataReceiver);
+		this.gamePanel = new JPanel();
+		
+		this.playerPanelUpdater = new PlayerPanelUpdater();
 	}
 	
 	private void setWindow() {
@@ -85,75 +93,7 @@ public class NineGrid {
 		setWindow();
 		window.setVisible(true);
 		
-		playerPanelUpdater.update(gamePanel, playerPanel);
+//		playerPanelUpdater.update(gamePanel, playerPanel, dataReceiver);
 	}
 	
-	class NineGridPanel extends JPanel{
-		public static final long serialVersionUID = 1L;
-		
-		@Override
-		public void paint(Graphics g)
-		{
-			Graphics2D g2 = (Graphics2D) g;
-	        g2.setStroke(new BasicStroke(10));
-	        
-			//1.呼叫父類函式完成初始化
-			super.paint(g2);	
-			
-			g2.drawRect(0,0,this.getWidth(),this.getHeight());
-			g2.drawLine(0,this.getHeight()/3,this.getWidth(),this.getHeight()/3);
-			g2.drawLine(0,this.getHeight()*2/3,this.getWidth(),this.getHeight()*2/3);
-			g2.drawLine(this.getWidth()/3,0,this.getWidth()/3,this.getHeight());
-			g2.drawLine(this.getWidth()*2/3,0,this.getWidth()*2/3,this.getHeight());
-			
-			for(int i = 0; i < gridPanels.length; i++) {
-				for(int j = 0; j < gridPanels[i].length; j++) {
-					JPanel gridPanel = new JPanel();
-					JLabel panelLb = new JLabel();
-					
-					gridPanel.setBounds(this.getWidth()/3*j,this.getHeight()/3*i,this.getWidth()/3*(j+1),this.getHeight()/3*(i+1));
-					gridPanel.setSize(this.getWidth()/3,this.getHeight()/3);
-					gridPanel.setBackground(Color.white);
-					gridPanel.setLayout(null);
-					gridPanel.add(panelLb);
-					
-					panelLb.setText(String.valueOf(i*3+j+1));
-					panelLb.setBounds(gridPanel.getWidth()/3+3,gridPanel.getHeight()/3-15,gridPanel.getWidth()*2/3,gridPanel.getHeight()*2/3);
-					panelLb.setFont (panelLb.getFont ().deriveFont (64.0f));
-					
-					this.add(gridPanel);
-					gridPanels[i][j] = gridPanel;
-				}
-			}
-		}
-	}
-	
-	class PlayerPanel extends JPanel{
-		public static final long serialVersionUID = 1L;
-		
-		@Override
-		public void paint(Graphics g)
-		{
-			Graphics2D g2 = (Graphics2D) g;
-	        g2.setStroke(new BasicStroke(10));
-	        
-			//1.呼叫父類函式完成初始化
-			super.paint(g2);
-			
-			JSONArray dataArr;
-			JSONArray point;
-			dataArr = dataReceiver.getDataArray();
-			if(dataArr != null) {
-				for (int i = 0; i < dataArr.length(); i++){
-		        	for(int j = 0; j < dataArr.getJSONArray(i).length(); j++) {
-		        		point = dataArr.getJSONArray(i).getJSONArray(j).getJSONArray(0); 
-		        		g2.drawLine(point.getInt(0),point.getInt(1),point.getInt(0),point.getInt(1));
-		        	}
-		        }
-			}
-		}
-	}
-	public JPanel createNewPanel(){
-		return new PlayerPanel();
-	}
 }

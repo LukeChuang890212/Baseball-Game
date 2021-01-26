@@ -17,7 +17,7 @@ public class BaseballToss {
 		NineGrid nineGrid = new NineGrid(dataReceiver);
 		nineGrid.openWindow();
 		nineGrid.gridPanels[0][0].setBackground(Color.black);
-		
+
 //		JSONArray arr;
 //		while(true){
 //			arr = dataReceiver.getDataArray(); 
