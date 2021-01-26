@@ -1,10 +1,23 @@
 package gui;
 
-import java.awt.*;
-import javax.swing.*;
-
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import org.json.JSONArray;
+
+import dataReceiver.DataReceiver;
+import opencv.MoveDetector;
 
 public class NineGrid {
 	private JFrame window = new JFrame("NineGrid");
@@ -16,8 +29,14 @@ public class NineGrid {
 	private JPanel gamePanel = new JPanel();
 	public NineGridPanel nineGridPanel = new NineGridPanel();
 	public PlayerPanel playerPanel = new PlayerPanel();
-	
 	public JPanel[][] gridPanels = new JPanel[3][3];
+	
+	private DataReceiver dataReceiver;
+	private PlayerPanelUpdater playerPanelUpdater = new PlayerPanelUpdater();
+			
+	public NineGrid(DataReceiver dataReceiver) {
+		this.dataReceiver = dataReceiver;
+	}
 	
 	private void setWindow() {
 		window.setUndecorated(true);
@@ -34,7 +53,7 @@ public class NineGrid {
 		gamePanel.setBounds(0,contentPane.getHeight()/4-100,contentPane.getWidth()*2/3+100,contentPane.getHeight());
 		gamePanel.setLayout(null);
 		gamePanel.add(nineGridPanel);
-//		gamePanel.add(playerPanel);
+		gamePanel.add(playerPanel);
 		
 		nineGridPanel.setBackground(Color.white);
 		nineGridPanel.setBounds(gamePanel.getWidth()*2/3,0,gamePanel.getWidth(),gamePanel.getWidth()/3);
@@ -55,6 +74,7 @@ public class NineGrid {
             @Override
             public void actionPerformed(ActionEvent e) {
             	window.dispose();
+            	MoveDetector.process.destroy();
             }
         });
         exitBtn.setBounds(0,0,btnPanel.getWidth(),btnPanel.getHeight());
@@ -64,9 +84,12 @@ public class NineGrid {
 	public void openWindow() {
 		setWindow();
 		window.setVisible(true);
+		
+		playerPanelUpdater.update(gamePanel, playerPanel);
 	}
 	
 	class NineGridPanel extends JPanel{
+		public static final long serialVersionUID = 1L;
 		
 		@Override
 		public void paint(Graphics g)
@@ -106,6 +129,31 @@ public class NineGrid {
 	}
 	
 	class PlayerPanel extends JPanel{
+		public static final long serialVersionUID = 1L;
 		
+		@Override
+		public void paint(Graphics g)
+		{
+			Graphics2D g2 = (Graphics2D) g;
+	        g2.setStroke(new BasicStroke(10));
+	        
+			//1.呼叫父類函式完成初始化
+			super.paint(g2);
+			
+			JSONArray dataArr;
+			JSONArray point;
+			dataArr = dataReceiver.getDataArray();
+			if(dataArr != null) {
+				for (int i = 0; i < dataArr.length(); i++){
+		        	for(int j = 0; j < dataArr.getJSONArray(i).length(); j++) {
+		        		point = dataArr.getJSONArray(i).getJSONArray(j).getJSONArray(0); 
+		        		g2.drawLine(point.getInt(0),point.getInt(1),point.getInt(0),point.getInt(1));
+		        	}
+		        }
+			}
+		}
+	}
+	public JPanel createNewPanel(){
+		return new PlayerPanel();
 	}
 }

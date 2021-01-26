@@ -1,7 +1,6 @@
 package dataReceiver;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;  
@@ -10,7 +9,14 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
-public class DataReceiver {
+import org.json.*;
+
+public class DataReceiver extends Thread{
+	public JSONArray dataArr;
+	
+	public void run() {
+		receive();
+	}
 	public void receive() {
 		ConnectionFactory factory = new ConnectionFactory();  
 			
@@ -36,7 +42,9 @@ public class DataReceiver {
 		        	String routingKey = envelope.getRoutingKey(); // 佇列名稱
 		            String contentType = properties.getContentType(); // 內容型別
 		            String content = new String(body, "utf-8"); // 訊息正文
-		            System.out.println("訊息正文："+content);
+		            JSONObject jsonObj = new JSONObject(content);
+		            dataArr = jsonObj.getJSONArray("cnts");
+//		            System.out.println("訊息正文："+content);
 		            channel.basicAck(envelope.getDeliveryTag(), false); // 手動確認訊息【引數說明：引數一：該訊息的index；引數二：是否批量應答，true批量確認小於index的訊息】
 	        	}
 	        });
@@ -44,5 +52,9 @@ public class DataReceiver {
 		} catch (Exception e) {
 	           e.printStackTrace();
 	    }
+	}
+	
+	public JSONArray getDataArray() {
+		return dataArr;
 	}
 }
