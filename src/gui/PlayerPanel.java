@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -22,10 +23,13 @@ public class PlayerPanel extends JPanel{
 	{
 		System.out.println("paint new playerPanel");
 		Graphics2D g2 = (Graphics2D) g;
+		
         g2.setStroke(new BasicStroke(5));
-        
+       
 		//1.呼叫父類函式完成初始化
 		super.paint(g2);
+		
+		g2.setColor(Color.white);
 		
 		JSONArray point;
 		System.out.println("Data used to paint:"+dataArr);

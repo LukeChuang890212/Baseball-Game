@@ -59,14 +59,14 @@ public class NineGrid {
 		nineGridPanel.setBounds(gamePanel.getWidth()*2/3,0,gamePanel.getWidth(),gamePanel.getWidth()/3);
 		nineGridPanel.setSize(gamePanel.getWidth()/3,gamePanel.getWidth()/3);
 		
-		playerPanel.setBackground(Color.red);
+		playerPanel.setBackground(Color.black);
 		playerPanel.setBounds(0,0,gamePanel.getWidth()*2/3,gamePanel.getHeight());
 		playerPanel.setSize(gamePanel.getWidth()*2/3,gamePanel.getHeight());
 		
 		// set btnPanel
+		btnPanel.setBackground(Color.black);
 		btnPanel.setBounds(contentPane.getWidth()*3/4,contentPane.getHeight()*3/4,contentPane.getWidth(),contentPane.getHeight());
 		btnPanel.setSize(contentPane.getWidth()/4,contentPane.getHeight()/4);
-		btnPanel.setBackground(Color.black);
 		btnPanel.add(exitBtn,BorderLayout.SOUTH);
 		
 		exitBtn.setFont(new Font("Courier New", Font.BOLD, 50));

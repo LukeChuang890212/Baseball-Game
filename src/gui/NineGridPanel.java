@@ -22,6 +22,7 @@ public class NineGridPanel extends JPanel{
 	{
 		Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(10));
+        g2.setColor(Color.yellow);
         
 		//1.呼叫父類函式完成初始化
 		super.paint(g2);	

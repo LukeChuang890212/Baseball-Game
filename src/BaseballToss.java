@@ -11,7 +11,7 @@ public class BaseballToss {
 	public static void main(String[] args) {
 		NineGrid nineGrid = new NineGrid();
 		nineGrid.openWindow();
-		nineGrid.gridPanels[0][0].setBackground(Color.black);
+//		nineGrid.gridPanels[0][0].setBackground(Color.black);
 		
 		PlayerPanelUpdater playerPanelUpdater = new PlayerPanelUpdater(nineGrid);
 		
