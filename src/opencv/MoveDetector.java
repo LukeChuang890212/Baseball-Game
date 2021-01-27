@@ -3,12 +3,12 @@ package opencv;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class MoveDetector extends Thread{
 	public static Process process;
 	
 	public void run() {
+		System.out.println("Detect movement");
 		detect();
 	}
 	public void detect() {

@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import dataReceiver.DataReceiver;
 import opencv.MoveDetector;
+import dataReceiver.DataReceiver;
 
 public class NineGrid {
 	private JFrame window;
@@ -20,30 +20,22 @@ public class NineGrid {
 	private JPanel btnPanel;
 	private Button exitBtn;
 	
-	private DataReceiver dataReceiver;
-	
 	public JPanel[][] gridPanels;
 	public NineGridPanel nineGridPanel;
 	public PlayerPanel playerPanel;
 	private JPanel gamePanel;
-	
-	private PlayerPanelUpdater playerPanelUpdater;
 			
-	public NineGrid(DataReceiver dataReceiver) {
+	public NineGrid() {
 		this.window = new JFrame("NineGrid");
 //		this.contentPane;
 		
 		this.btnPanel = new JPanel();
 		this.exitBtn = new Button("Exit");
 		
-		this.dataReceiver = dataReceiver;
-		
 		this.gridPanels = new JPanel[3][3];
 		this.nineGridPanel = new NineGridPanel(this.gridPanels);
-		this.playerPanel = new PlayerPanel(this.dataReceiver);
+		this.playerPanel = new PlayerPanel(DataReceiver.dataArr);
 		this.gamePanel = new JPanel();
-		
-		this.playerPanelUpdater = new PlayerPanelUpdater();
 	}
 	
 	private void setWindow() {
@@ -89,11 +81,17 @@ public class NineGrid {
         exitBtn.setSize(btnPanel.getWidth(),btnPanel.getHeight());
 	}
 	
+	public JPanel getGamePanel() {
+		return gamePanel;
+	}
+	
+	public PlayerPanel getPlayerPanel() {
+		return playerPanel;
+	}
+	
 	public void openWindow() {
 		setWindow();
 		window.setVisible(true);
-		
-//		playerPanelUpdater.update(gamePanel, playerPanel, dataReceiver);
 	}
 	
 }

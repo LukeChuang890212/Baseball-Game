@@ -1,15 +1,18 @@
 package gui;
 
-import javax.swing.JPanel;
+import org.json.JSONArray;
 
-import dataReceiver.DataReceiver;
-
-public class PlayerPanelUpdater {
-	public void update(JPanel gamePanel, JPanel origPanel, DataReceiver dataReceiver) {
-		while(true) {
-			gamePanel.remove(origPanel);
-			gamePanel.add(new PlayerPanel(dataReceiver));
-			gamePanel.revalidate();
-		}
+public class PlayerPanelUpdater{
+	private NineGrid nineGrid;
+	
+	public PlayerPanelUpdater(NineGrid nineGrid) {
+		this.nineGrid = nineGrid;
+	}
+	public void update(JSONArray dataArr) {
+		System.out.println("Updata playerPanel");
+		nineGrid.getGamePanel().remove(nineGrid.getPlayerPanel());
+//		System.out.println("Data before updating playerPanel:"+dataArr);
+		nineGrid.getGamePanel().add(new PlayerPanel(dataArr));
+		nineGrid.getGamePanel().revalidate();
 	}
 }

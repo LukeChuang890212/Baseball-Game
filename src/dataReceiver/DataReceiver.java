@@ -11,10 +11,18 @@ import com.rabbitmq.client.Envelope;
 
 import org.json.*;
 
+import gui.PlayerPanelUpdater;
+
 public class DataReceiver extends Thread{
-	public JSONArray dataArr;
+	public static JSONArray dataArr;
+	private PlayerPanelUpdater playerPanelUpdater;
+	
+	public DataReceiver(PlayerPanelUpdater playerPanelUpdater) {
+		this.playerPanelUpdater = playerPanelUpdater;
+	}
 	
 	public void run() {
+		System.out.println("Receive data");
 		receive();
 	}
 	public void receive() {
@@ -45,12 +53,14 @@ public class DataReceiver extends Thread{
 		            JSONObject jsonObj = new JSONObject(content);
 		            dataArr = jsonObj.getJSONArray("cnts");
 //		            System.out.println("訊息正文："+content);
+		            playerPanelUpdater.update(dataArr);
 		            channel.basicAck(envelope.getDeliveryTag(), false); // 手動確認訊息【引數說明：引數一：該訊息的index；引數二：是否批量應答，true批量確認小於index的訊息】
 	        	}
 	        });
 			
 		} catch (Exception e) {
-	           e.printStackTrace();
+			System.out.println("Error"+e);
+			e.printStackTrace();
 	    }
 	}
 	
