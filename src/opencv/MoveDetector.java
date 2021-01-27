@@ -1,17 +1,19 @@
 package opencv;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
-public class MoveDetector extends Thread{
+import dataReceiver.DataReceiver;
+
+public class MoveDetector{
 	public static Process process;
 	
-	public void run() {
-		System.out.println("Detect movement");
-		detect();
+	private DataReceiver dataReceiver;
+	public MoveDetector(DataReceiver dataReceiver) {
+		this.dataReceiver = dataReceiver;
 	}
 	public void detect() {
+		System.out.println("Start up MoveDetector");
+		
 		String pythonPath="C:/Users/USER/Desktop/Python-Opencv/env/Scripts/python ";
         String filePath="C:/Users/USER/Desktop/Python-Opencv/move_detect.py ";
         
@@ -19,15 +21,14 @@ public class MoveDetector extends Thread{
         try {
             process = Runtime.getRuntime().exec(
                     pythonPath + filePath);
-            BufferedReader in=new BufferedReader(new InputStreamReader(process.getInputStream()));
-            in.close();
+            dataReceiver.receive();
             int re=process.waitFor();
             System.out.println(re==1?"----狀態碼1----執行失敗":"----狀態碼0----執行成功");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }        
 	}
 }
 

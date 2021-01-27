@@ -13,19 +13,17 @@ import org.json.*;
 
 import gui.PlayerPanelUpdater;
 
-public class DataReceiver extends Thread{
+public class DataReceiver{
 	public static JSONArray dataArr;
-	private PlayerPanelUpdater playerPanelUpdater;
 	
+	private PlayerPanelUpdater playerPanelUpdater;
 	public DataReceiver(PlayerPanelUpdater playerPanelUpdater) {
 		this.playerPanelUpdater = playerPanelUpdater;
 	}
 	
-	public void run() {
-		System.out.println("Receive data");
-		receive();
-	}
 	public void receive() {
+		System.out.println("Receive data");
+		
 		ConnectionFactory factory = new ConnectionFactory();  
 			
 		factory.setHost("localhost");  

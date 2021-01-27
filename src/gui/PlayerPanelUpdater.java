@@ -1,18 +1,30 @@
 package gui;
 
+import javax.swing.JPanel;
+
 import org.json.JSONArray;
 
 public class PlayerPanelUpdater{
 	private NineGrid nineGrid;
+	private JPanel gamePanel;
+	private PlayerPanel playerPanel;
 	
 	public PlayerPanelUpdater(NineGrid nineGrid) {
 		this.nineGrid = nineGrid;
 	}
 	public void update(JSONArray dataArr) {
 		System.out.println("Updata playerPanel");
-		nineGrid.getGamePanel().remove(nineGrid.getPlayerPanel());
 //		System.out.println("Data before updating playerPanel:"+dataArr);
-		nineGrid.getGamePanel().add(new PlayerPanel(dataArr));
-		nineGrid.getGamePanel().revalidate();
+		
+		gamePanel = nineGrid.getGamePanel();
+		playerPanel = nineGrid.getPlayerPanel();
+		
+		PlayerPanel newPlayerPanel = new PlayerPanel(dataArr);
+				
+		gamePanel.remove(playerPanel);
+		gamePanel.add(newPlayerPanel);
+		newPlayerPanel.setBounds(0,0,gamePanel.getWidth()*2/3,gamePanel.getHeight());
+		newPlayerPanel.repaint();
+//		gamePanel.revalidate();
 	}
 }
