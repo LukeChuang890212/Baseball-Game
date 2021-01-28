@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -109,7 +108,7 @@ public class NineGridPanel extends JPanel{
 		
 		for(int i = 0; i < gridPanels.length; i++) {
 			for(int j = 0; j < gridPanels[i].length; j++) {
-				System.out.println("add gridPanel");
+//				System.out.println("add gridPanel");
 				
 				gridPanels[i][j].setBounds(this.getWidth()/3*j,this.getHeight()/3*i,this.getWidth()/3*(j+1),this.getHeight()/3*(i+1));
 				gridPanels[i][j].setSize(this.getWidth()/3,this.getHeight()/3);

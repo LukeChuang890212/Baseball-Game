@@ -10,14 +10,12 @@ import javax.swing.JPanel;
 import org.json.JSONArray;
 
 public class PlayerPanel extends JPanel{
-	public static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	private JSONArray dataArr;
 	public PlayerPanel(JSONArray dataArr) {
 		System.out.println("New PlayerPanel():");
 		this.dataArr = dataArr;
-		
-		
 	}
 	
 	@Override

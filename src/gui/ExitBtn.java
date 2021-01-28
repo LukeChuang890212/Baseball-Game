@@ -1,5 +1,7 @@
 package gui;
 
-public class ExitBtn {
+import javax.swing.JButton;
 
+public class ExitBtn extends JButton{
+	private static final long serialVersionUID = 1L;
 }
