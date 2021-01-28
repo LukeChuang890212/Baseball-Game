@@ -20,20 +20,18 @@ public class NineGrid {
 	private JPanel btnPanel;
 	private Button exitBtn;
 	
-	public JPanel[][] gridPanels;
 	public NineGridPanel nineGridPanel;
 	public PlayerPanel playerPanel;
 	private JPanel gamePanel;
 			
-	public NineGrid() {
+	public NineGrid(){
 		this.window = new JFrame("NineGrid");
 //		this.contentPane;
 		
 		this.btnPanel = new JPanel();
 		this.exitBtn = new Button("Exit");
 		
-		this.gridPanels = new JPanel[3][3];
-		this.nineGridPanel = new NineGridPanel(this.gridPanels);
+		this.nineGridPanel = new NineGridPanel();
 		this.playerPanel = new PlayerPanel(DataReceiver.dataArr);
 		this.gamePanel = new JPanel();
 	}
@@ -41,17 +39,20 @@ public class NineGrid {
 	private void setWindow() {
 		window.setUndecorated(true);
 		window.getGraphicsConfiguration().getDevice().setFullScreenWindow(window);
+		window.setBackground(Color.black);
 		
 		contentPane = window.getContentPane();
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.black);
-		contentPane.add(btnPanel);
+		
 		contentPane.add(gamePanel);
+		contentPane.add(btnPanel);
 		
 		// set gamePanel
 		gamePanel.setBackground(Color.blue);
 		gamePanel.setBounds(0,contentPane.getHeight()/4-100,contentPane.getWidth()*2/3+100,contentPane.getHeight());
 		gamePanel.setLayout(null);
+		
 		gamePanel.add(nineGridPanel);
 		gamePanel.add(playerPanel);
 		
@@ -67,6 +68,7 @@ public class NineGrid {
 		btnPanel.setBackground(Color.black);
 		btnPanel.setBounds(contentPane.getWidth()*3/4,contentPane.getHeight()*3/4,contentPane.getWidth(),contentPane.getHeight());
 		btnPanel.setSize(contentPane.getWidth()/4,contentPane.getHeight()/4);
+		
 		btnPanel.add(exitBtn,BorderLayout.SOUTH);
 		
 		exitBtn.setFont(new Font("Courier New", Font.BOLD, 50));
@@ -93,5 +95,4 @@ public class NineGrid {
 		setWindow();
 		window.setVisible(true);
 	}
-	
 }

@@ -14,25 +14,28 @@ public class PlayerPanel extends JPanel{
 	
 	private JSONArray dataArr;
 	public PlayerPanel(JSONArray dataArr) {
+		System.out.println("New PlayerPanel():");
 		this.dataArr = dataArr;
-		System.out.println("Data before updating playerPanel:"+dataArr);
+		
+		
 	}
 	
 	@Override
-	public void paint(Graphics g)
+	public void paintComponent(Graphics g)
 	{
 		System.out.println("paint new playerPanel");
+		
 		Graphics2D g2 = (Graphics2D) g;
 		
         g2.setStroke(new BasicStroke(5));
        
 		//1.呼叫父類函式完成初始化
-		super.paint(g2);
+		super.paintComponent(g2);
 		
 		g2.setColor(Color.white);
 		
 		JSONArray point;
-		System.out.println("Data used to paint:"+dataArr);
+//		System.out.println("Data used to paint:"+dataArr);
 		if(dataArr != null) {
 			for (int i = 0; i < dataArr.length(); i++){
 	        	for(int j = 0; j < dataArr.getJSONArray(i).length(); j++) {

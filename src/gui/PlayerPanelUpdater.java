@@ -12,7 +12,7 @@ public class PlayerPanelUpdater{
 	private PlayerPanel playerPanel;
 	
 	public PlayerPanelUpdater(NineGrid nineGrid) {
-		this.nineGrid = nineGrid;
+		this.nineGrid = nineGrid;	
 	}
 	public void update(JSONArray dataArr) {
 		System.out.println("Updata playerPanel");
